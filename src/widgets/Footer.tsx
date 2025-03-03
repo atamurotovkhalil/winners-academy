@@ -113,7 +113,7 @@ const Footer = () => {
         </div>
       </div>
       <div
-        className=" fixed z-10 lg:hidden md:hidden bottom-0   sm:w-[100%]  w-[100%]   bg-black/70
+        className=" fixed z-10 lg:hidden md:hidden bottom-0 h-16  sm:w-[100%]  w-[100%]   bg-black/70
                 backdrop-blur-2xl  rounded-t-3xl   cursor-pointer"
       >
         <BottomNavbar />

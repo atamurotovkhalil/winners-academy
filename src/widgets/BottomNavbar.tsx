@@ -32,7 +32,7 @@ const BottomNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button className=" rounded-full  flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
-              <ImProfile className="text-4xl" />
+              <ImProfile className="text-5xl" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -57,7 +57,7 @@ const BottomNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button className="w-full rounded-full flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
-              <PiArticleMediumBold className="text-4xl" />
+              <PiArticleMediumBold className="text-5xl" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -82,7 +82,7 @@ const BottomNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button className="w-full rounded-full flex justify-evenly  bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
-              <GiHeartPlus className="text-4xl" />
+              <GiHeartPlus className="text-5xl" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -100,7 +100,7 @@ const BottomNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button className="w-full rounded-full flex justify-evenly  bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
-              <MdPlayLesson className="text-4xl" />
+              <MdPlayLesson className="text-5xl" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>

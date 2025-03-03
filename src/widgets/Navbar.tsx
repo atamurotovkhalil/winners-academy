@@ -185,9 +185,9 @@ const Navbar = () => {
             <div
               className={
                 menu
-                  ? `fixed z-10 lg:hidden  right-0  top-[100%] sm:w-[100%] md:w-[30%] w-[100%]  text-black  bg-[#1C1C33]/60
+                  ? `fixed z-10 lg:hidden  right-0  top-[7.7%] sm:w-[100%] md:w-[30%] w-[100%]  text-black  bg-[#1C1C33]/60
                 backdrop-blur-2xl  rounded-b-md ease-in-out duration-500 cursor-pointer`
-                  : "fixed lg:hidden top-[-1000%]"
+                  : "fixed lg:hidden top-[-150%]"
               }
             >
               <div>
