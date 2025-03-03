@@ -59,7 +59,6 @@ const index = () => {
                     <WinnersLogo />
                   </div>
                   <video
-                    autoPlay
                     muted
                     loop
                     controls

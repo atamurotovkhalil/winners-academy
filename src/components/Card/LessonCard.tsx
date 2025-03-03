@@ -22,7 +22,6 @@ const Cards = () => {
             <div className="">
               <div className="w-full">
                 <video
-                  autoPlay
                   muted
                   loop
                   controls
