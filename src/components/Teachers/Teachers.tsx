@@ -29,14 +29,24 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
+import { useUserStore } from "../Signup/store/user-store";
+import { useEffect } from "react";
 
 const Teachers = () => {
+  const users = useUserStore((state) => state.users);
+  const getUsers = useUserStore((state) => state.getUsers);
+
+  useEffect(() => {
+    if (!users) {
+      getUsers("page", 1);
+    }
+  }, [users, getUsers]);
+
+  const teachers = users.filter((user) => user.type === "TEACHER");
+
   return (
     <div className="w-full">
-      <div 
-      data-aos="slide-up" 
-      className="lg:mx-16 md:mx-12  py-4 ">
+      <div data-aos="slide-up" className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-start justify-between gap-4 my-5 min-h-screen">
           <div className="col-span-1 lg:sticky md:sticky sm:sticky top-20">
             <div className="flex items-center  lg:justify-start md:justify-start justify-center">
@@ -95,18 +105,13 @@ const Teachers = () => {
             </div>
           </div>
           <div className="lg:col-span-3  md:col-span-2 grid items-center  justify-center lg:grid-cols-3 md:grid-cols-2 space-y-3 space-x-3 my-3">
-            <Link
-            to='/teacherdetail'
-            ><TeacherCard /></Link>
-            <Link
-            to='/teacherdetail'
-            ><TeacherCard /></Link>
-            <Link
-            to='/teacherdetail'
-            ><TeacherCard /></Link>
-            <Link
-            to='/teacherdetail'
-            ><TeacherCard /></Link>
+            {teachers.map((teach) => (
+              <div key={teach._id}>
+                <Link to={`/teacherdetail/${teach._id}`}>
+                  <TeacherCard user={teach} />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
 

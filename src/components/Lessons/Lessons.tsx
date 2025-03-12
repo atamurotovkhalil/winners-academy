@@ -32,17 +32,19 @@ import {
 import WinnersLogo from "../ui/WinnersLogo";
 import Cards from "../Card/LessonCard";
 import { useEffect } from "react";
+import { useLessonStore } from "./store/lessons-store";
 
 const Lessons = () => {
+  const lessons = useLessonStore((state) => state.lessons);
+  const getLessons = useLessonStore((state) => state.getLessons);
   useEffect(() => {
     AOS.init({ duration: 1200 });
+    getLessons("page", 1);
   }, []);
   return (
     <div className="w-full">
-      <div 
-      data-aos="slide-up" 
-      className="lg:mx-16 md:mx-12  py-4 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-start justify-center sm:mr-4 my-5 min-h-screen">
+      <div data-aos="slide-up" className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-start justify-center  my-5 min-h-screen">
           <div className="col-span-1 lg:sticky sm:sticky md:sticky top-20">
             <div className="flex items-center  lg:justify-start md:justify-start justify-center">
               <Card
@@ -99,13 +101,13 @@ const Lessons = () => {
               </Card>
             </div>
           </div>
-          <div className="lg:col-span-3  md:col-span-2 grid items-center justify-center lg:grid-cols-3 md:grid-cols-2 space-y-3 gap-3 my-3">
-            <Cards />
-            <Cards />
-            <Cards />
-            <Cards />
-            <Cards />
-          </div>
+          <ul className="lg:col-span-3  md:col-span-2 grid items-center justify-center lg:grid-cols-3 md:grid-cols-2 space-y-3 lg:gap-3 md:gap-3 my-3">
+            {lessons.map((lesson) => (
+              <li key={lesson._id}>
+                <Cards lesson={lesson} />
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="my-3">

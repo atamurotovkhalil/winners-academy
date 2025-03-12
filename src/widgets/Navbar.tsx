@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { Link } from "react-router";
@@ -11,10 +11,18 @@ import Lessons from "../assets/lessons.png";
 import Community from "../assets/partners.png";
 import { ModeToggle } from "@/components/mode-toggle";
 import MobileNavbar from "./MobileNavbar";
-
+import { BsPersonCircle } from "react-icons/bs";
+import { useUserStore } from "@/components/Signup/store/user-store";
 
 const Navbar = () => {
   const [menu, setMenu] = useState<SetStateAction<boolean>>(false);
+  const { fetchUserData, currentUser} = useUserStore()
+
+  useEffect(()=>{
+    if(!currentUser) {
+      fetchUserData()
+    }
+  },[currentUser, fetchUserData])
 
   return (
     <div
@@ -25,11 +33,12 @@ const Navbar = () => {
         <div className="">
           <div className="flex  items-center  justify-between ">
             <div className="flex">
-              <div
-                className="flex  m-1  bg-wite py-1"
-              >
-                <img className="w-[22px] h-[30px] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
-                    object-cover  pb-3 translate-x-2 " src={w} />
+              <div className="flex  m-1  bg-wite py-1">
+                <img
+                  className="w-[22px] h-[30px] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
+                    object-cover  pb-3 translate-x-2 "
+                  src={w}
+                />
                 <img
                   className="w-[22px] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover pt-2 h-[30px] -translate-x-1 "
@@ -53,7 +62,7 @@ const Navbar = () => {
                 </span>
               </div>
               <div className="text-end lg:hidden md:hidden flex justify-center items-end text-[10px]">
-                <p className="italic text-[8px] font-bold">
+                <p className="italic text-[10px] font-bold">
                   <span className="text-[#fc8100]  font-bold text-[16px]">
                     E
                   </span>
@@ -137,7 +146,7 @@ const Navbar = () => {
                         </p>
                       </Link>
                     </li>
-                    <li
+                    {currentUser && <li
                       onClick={() => setMenu(false)}
                       className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover bg-[#1C1C33] w-full rounded-xl"
@@ -152,12 +161,26 @@ const Navbar = () => {
                           MY PAGE
                         </p>
                       </Link>
-                    </li>
+                    </li>}
+                    {!currentUser && <li
+                      className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
+                    object-cover bg-[#1C1C33]  rounded-xl"
+                    >
+                      {" "}
+                      <Link
+                        className="flex    items-center justify-evenly"
+                        to="/signup"
+                      >
+                        <p className="mx-auto ">
+                          <BsPersonCircle className="w-[14px]"/>
+                        </p>
+                      </Link>
+                    </li>}
                   </ul>
                 </div>
               </div>
               <div className="">
-                <ModeToggle />
+                {/* <ModeToggle /> */}
               </div>
               <div className="flex relative items-center md:flex lg:hidden justify-between pr-2 h-12">
                 <div
@@ -185,9 +208,9 @@ const Navbar = () => {
             <div
               className={
                 menu
-                  ? `fixed z-10 lg:hidden  right-0  top-[7.7%] sm:w-[100%] md:w-[30%] w-[100%]  text-black  bg-[#1C1C33]/60
+                  ? `fixed z-10 lg:hidden  right-0  top-[100%] sm:w-[100%] md:w-[30%] w-[100%]  text-black  bg-[#1C1C33]/60
                 backdrop-blur-2xl  rounded-b-md ease-in-out duration-500 cursor-pointer`
-                  : "fixed lg:hidden top-[-150%]"
+                  : "fixed lg:hidden top-[-1000%]"
               }
             >
               <div>

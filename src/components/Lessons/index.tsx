@@ -6,7 +6,6 @@ import Lenta from "../ui/Lenta";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const index = () => {
   useEffect(() => {
     AOS.init({ duration: 1200 });
@@ -14,7 +13,7 @@ const index = () => {
   return (
     <div>
       <div className="bg-[#fc8100]">
-        <div className="lg:mx-16 md:mx-12 sm:mx-1 py-4">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-5">
             <div className="flex justify-center items-center">
               <div
@@ -54,20 +53,25 @@ const index = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[10px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+                    At our language training center, we offer a variety of
                     <br />
-                    aliquam, purus sit amet luctus venenatis, lectus magna
+                    structured lessons designed to help students master 
                     <br />
-                    fringilla urnaLorem ipsum dolor sit amet.
+                    English efficiently. Whether you are preparing for IELTS, 
+                    <br />
+                    improving your general communication skills, or focusing on 
+                    <br />
+                    academic writing, our lessons are tailored to meet diverse learning
+                    needs.
                   </p>
                 </div>
-                <div>
+                {/* <div>
                   <div className="mx-auto my-3">
                     <button className="text-gray-300 lg:text-[16px] md:text-[16px] text-[12px]  rounded-lg hover:bg-gray-300 hover:text-black bg-black lg:py-2 lg:px-4 md:py-2 md:px-4 py-1  px-2 my-3">
                       Contact Us
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

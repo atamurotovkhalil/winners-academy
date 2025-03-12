@@ -1,5 +1,4 @@
-import {  useState } from "react";
-//import { useUserStore } from "@/Features/Signup&Login/getUsers-store";
+import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -9,121 +8,110 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FaCloudUploadAlt } from "react-icons/fa";
-interface User {
-  firstname: string;
-  lastname: string;
-  phonenumber: string;
-  address: string;
-  city: string;
-  street: string;
-  house: string;
-  apartment: string;
-  detailedinformation: string;
-}
+import { useUserStore } from "../Signup/store/user-store";
+import { usePopup } from "@/widgets/popup-store/popup-store";
 
 const WriteArticle = () => {
-  //const currentUser = useUserStore((state: any) => state.user);
-  //const fetchUserData = useUserStore((state: any) => state.fetchUserData);
-  const [user, setUser] = useState<User>({
-    firstname: "",
-    lastname: "",
-    phonenumber: "",
-    address: "",
-    city: "",
-    street: "",
-    house: "",
-    apartment: "",
-    detailedinformation: "",
+  const currentUser = useUserStore((state: any) => state.currentUser);
+  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
+  const [newfiles, setnewfiles] = useState<File[]>([]);
+  const [articleLevel, setArticleLevel] = useState("");
+  const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
+  const setSignErroruppopup = usePopup(
+    (state: any) => state.setSignErroruppopup
+  );
+  const [article, seArticle] = useState({
+    title: "",
+    category: "",
+    description: "",
+    author: "",
   });
-
-  // Fetch user data on component mount
-  //   useEffect(() => {
-  //     fetchUserData();
-  //   }, [fetchUserData]);
-
-  //   // Set user state when currentUser updates
-  //   useEffect(() => {
-  //     if (currentUser) {
-  //       setUser({
-  //         firstname: currentUser.firstname || "",
-  //         lastname: currentUser.lastname || "",
-  //         phonenumber: currentUser.phonenumber || "",
-  //         address: currentUser.address || "",
-  //         city: currentUser.city || "",
-  //         street: currentUser.street || "",
-  //         house: currentUser.house || "",
-  //         apartment: currentUser.apartment || "",
-  //         detailedinformation: currentUser.detailedinformation || "",
-  //       });
-  //     }
-  //   }, [currentUser]);
+  useEffect(() => {
+    if (!currentUser) {
+      fetchUserData();
+    }
+  }, [fetchUserData, currentUser]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
+    seArticle((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      setnewfiles([files[0]]); // Store only the latest selected image
+    }
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("description", article.description); // Add editor content as FormData
+    formData.append("category", articleLevel);
+    formData.append("title", article.title);
+    formData.append("userId", currentUser._id);
+    formData.append("author", article.author);
+    for (let i = 0; i < newfiles.length; i++) {
+      formData.append("file", newfiles[i]);
+    }
+    try {
+      const response = await fetch("http://localhost:3000/articles", {
+        method: "POST",
+        body: formData,
+      });
 
-  //   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:3000/auth/userupdate/${currentUser?._id}`,
-  //         {
-  //           method: "PUT",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //           },
-  //           body: JSON.stringify(user),
-  //         }
-  //       );
-
-  //       if (response.ok) {
-  //         alert("Profile updated successfully!");
-  //         //fetchUserData(); // Refresh user data after update
-  //       } else {
-  //         alert("Failed to update profile!");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during form submission:", error);
-  //       alert("An error occurred while updating the profile!");
-  //     }
-  //   };
-  const imageChange = () => {};
+      if (response.ok) {
+        setSignuppopup(true, "Article saved successfully!");
+      } else {
+        setSignErroruppopup(true, "Failed to save Article.");
+      }
+    } catch (error) {
+      setSignErroruppopup(true, `Error adding Article ${error}`);
+    }
+  };
 
   return (
     <div className="p-4 lg:mt-0 md:mt-0 sm:mt-6 mt-10">
       <h2 className="text-2xl font-bold mb-4">Write Article*</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="border border-[#fc8100] p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Write Article</h2>
           <div className="flex items-center border-t border-b border-[#fc8100] justify-center"></div>
 
           <div className="grid grid-cols-10 gap-2">
-            <div className="col-span-10">
+            <div className="col-span-5">
               Title*
               <input
                 type="text"
-                name="Title"
-                value={user.firstname}
+                name="title"
+                value={article.title}
                 placeholder="Title*"
                 className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
                 onChange={handleChange}
               />
             </div>
-            
+            <div className="col-span-5">
+              Author*
+              <input
+                type="text"
+                name="author"
+                value={article.author}
+                placeholder="Title*"
+                className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
+                onChange={handleChange}
+              />
+            </div>
+
             <div className="col-span-10">
               <div className="flex justify-between items-start flex-col w-full ">
                 <Label htmlFor="framework" className="text-[16px]">
                   Article Category*
                 </Label>
-                <Select>
+                <Select value={articleLevel} onValueChange={setArticleLevel}>
                   <SelectTrigger
                     className="h-14 mt-1 bg-slate-200"
                     id="framework"
@@ -131,9 +119,9 @@ const WriteArticle = () => {
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="next">Free Sharing</SelectItem>
-                    <SelectItem value="sveltekit">Class Based</SelectItem>
-                    <SelectItem value="astro">News</SelectItem>
+                    <SelectItem value="freesharing">Free Sharing</SelectItem>
+                    <SelectItem value="classbased">Class Based</SelectItem>
+                    <SelectItem value="news">News</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -143,7 +131,7 @@ const WriteArticle = () => {
             Description*
             <textarea
               name="description"
-              value={user.detailedinformation}
+              value={article.description}
               placeholder="Description*"
               className="my-1 border bg-slate-200 h-32 rounded-lg w-full"
               onChange={handleChange}
@@ -157,7 +145,11 @@ const WriteArticle = () => {
                 <FaCloudUploadAlt className="text-2xl mx-auto" />
                 <span className="">Upload Image</span>
               </div>
-              <input type="file" className="hidden " onChange={imageChange} />
+              <input
+                type="file"
+                className="hidden "
+                onChange={handleImageChange}
+              />
             </label>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import FreeSharing from "./FreeSharing";
 import ClassBased from "./ClassBased";
 import News from "./News";
@@ -6,6 +6,7 @@ import WinnersLogo from "../ui/WinnersLogo";
 import { Button } from "@/components/ui/button";
 import { MdCropFree, MdClass } from "react-icons/md";
 import { FaRegNewspaper } from "react-icons/fa6";
+import { useArticleStore } from "./store/article-stroe";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -23,11 +24,14 @@ import {
 } from "@/components/ui/card";
 import { FaSearch } from "react-icons/fa";
 
-
 const Community = () => {
   const [showComponent, setShowComponent] = useState(1);
+  const getArticles = useArticleStore((state) => state.getArticles);
 
-  const RenderComponent = () => {
+  useEffect(() => {
+    getArticles("page", 1);
+  }, [getArticles]); // Add `getArticles` in the dependency array to avoid warnings
+  const RenderComponent = useCallback(() => {
     switch (showComponent) {
       case 1:
         return <FreeSharing />;
@@ -38,11 +42,11 @@ const Community = () => {
       default:
         return <FreeSharing />;
     }
-  };
+  }, [showComponent]); // Only re-render when `showComponent` changes
 
   return (
     <div>
-      <div className="lg:mx-16 md:px-10 sm:px-5 px-1">
+      <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
         <div>
           <div>
             <div className="lg:flex items-center justify-between">
@@ -128,8 +132,8 @@ const Community = () => {
                 </Card>
               </div>
             </div>
-            <div className="lg:col-span-3   md:col-span-2 sm:col-span-1 col-span-1    gap-3">
-              <RenderComponent />
+            <div className="lg:col-span-3 md:col-span-2 sm:col-span-1 col-span-1 gap-3">
+              {RenderComponent()}
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
-import Founder from "./../../assets/founder.jpg";
+import Founder from "./../../assets/winners.jpg";
 import w from "../../assets/sticker.png";
 import A from "../../assets/sticker1.png";
+import { Link } from "react-router";
 
 
 const Header = () => {
@@ -17,11 +18,11 @@ const Header = () => {
         <br />
         <br />
       </span>
-      <div className="lg:mx-16 md:mx-12 sm:mx-2  p-4">
-        <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1">
-          <div data-aos="slide-down">
-            <div className="text-[#F6F6F8] font-thin my-3 italic lg:text-xl">
-              Be winner in
+      <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
+        <div className="grid lg:grid-cols-2  md:grid-cols-2 grid-cols-1">
+          <div data-aos="slide-down" className="">
+            <div className="text-[#F6F6F8] mt-24 font-thin my-3 italic lg:text-xl">
+              Be a winner in
             </div>
             <div>
               <div className="text-3xl lg:text-6xl ml-8 lg:my-8 italic flex items-center justify-start">
@@ -46,17 +47,20 @@ const Header = () => {
             </div>
             <div>
               <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[10px]">
-                A deep-dive on the Instagram algorythm, hashtags, content
-                <br /> strategy, and branding.
+              The most disciplined training center 
+                <br /> in Surkhandarya.
               </p>
             </div>
             <div>
-              <p className="text-gray-500 italic my-3">Kathryn Murphy</p>
+              <p className="text-gray-500 italic my-3">Ilhom Safarmurodov</p>
             </div>
             <div>
-              <button className="text-gray-500 rounded-lg hover:bg-gray-300 hover:text-black bg-[#fc8100] py-2 px-4 my-3">
+              <Link
+              to='/lessons'
+              >
+              <button className="text-gray-500 mt-10 rounded-lg hover:bg-gray-300 hover:text-black bg-[#fc8100] py-2 px-4 my-3">
                 Learn more
-              </button>
+              </button></Link>
             </div>
           </div>
 

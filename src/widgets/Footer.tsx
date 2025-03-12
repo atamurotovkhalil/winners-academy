@@ -9,13 +9,24 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import BottomNavbar from "./BottomNavbar";
-
+import { usePopup } from "./popup-store/popup-store";
+import SignupValidatePopup from "./popups/signup-validate-popup";
+import SignupErrorPopup from "./popups/signup-error-popup";
+import ConfirmPopup from "./popups/confirm-popup";
+import ConfirmLesson from "./popups/confirm-lesson";
+import LikesPopup from "./popups/likes-popup";
 
 const Footer = () => {
+  const signuppopup = usePopup((state: any) => state.signuppopup);
+  const signuperrorpopup = usePopup((state: any) => state.signuperrorpopup);
+  const confirmpopup = usePopup((state: any) => state.confirmpopup);
+  const deletelessonpopup = usePopup((state: any) => state.deletelessonpopup);
+
+  const likespopup = usePopup((state: any) => state.likespopup);
   return (
     <div>
       <div className="bg-black pb-5">
-        <div className="lg:mx-16 md:mx-12 sm:mx-2">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <div className="bg-green1 text-white">
             <div className=" container md:px-10 sm:px-5 px-1  ">
               <div className="grid lg:grid-cols-6 md:grid-cols-2 justify-between sm:grid-cols-2 grid-cols-1 p-10">
@@ -93,7 +104,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="bg-[#fc8100]">
-          <div className=" lg:mx-16 md:mx-12 sm:mx-2  hidden sm:hidden md:block lg:block">
+          <div className=" container mx-auto max-w-6xl py-4 px-4 lg:px-16  hidden sm:hidden md:block lg:block">
             <div className="sm:flex flex justify-between items-center ">
               <div className="flex justify-between items-center gap-3 p-1">
                 <p className="text-white flex justify-center items-center">
@@ -112,6 +123,31 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {signuppopup && (
+        <div>
+          <SignupValidatePopup />
+        </div>
+      )}
+      {signuperrorpopup && (
+        <div>
+          <SignupErrorPopup />
+        </div>
+      )}
+      {confirmpopup && (
+        <div>
+          <ConfirmPopup />
+        </div>
+      )}
+      {deletelessonpopup && (
+        <div>
+          <ConfirmLesson />
+        </div>
+      )}
+      {likespopup && (
+        <div>
+          <LikesPopup />
+        </div>
+      )}
       <div
         className=" fixed z-10 lg:hidden md:hidden bottom-0 h-16  sm:w-[100%]  w-[100%]   bg-black/70
                 backdrop-blur-2xl  rounded-t-3xl   cursor-pointer"

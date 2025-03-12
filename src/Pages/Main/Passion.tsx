@@ -11,12 +11,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { useRef } from "react";
+import { Link } from "react-router";
 const Passion = () => {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
   return (
     <div>
       <div className="bg-[#fc8100]">
-        <div className="lg:mx-16 md:mx-12 sm:mx-2 py-4">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <Carousel
             data-aos="slide-up"
             plugins={[plugin.current]}
@@ -37,15 +38,16 @@ const Passion = () => {
                         <FaStar />
                       </div>
                       <p className="text-center font-thin sm:text-[12px] text-[12px] md:text-[14px] lg:text-[16px]">
-                        “Kate’s courses are a game changer. She’s thorough,
-                        organized, and explains things in a <br /> no-nonsense
-                        way that makes it easy for anyone—beginners to
-                        experts—to learn <br />
-                        something from her courses and take their game to the
-                        next level.”
+                        Structured Learning: Courses provide a clear path,
+                        helping students understand each section of the test.{" "}
+                        <br /> Expert Guidance: Experienced teachers offer
+                        strategies to tackle tricky questions and common
+                        mistakes. <br />
+                        Practice Materials: Courses often include real
+                        IELTS-style practice tests, which improve familiarity.
                       </p>
                       <p className="text-center font-thin sm:text-[12px] text-[12px] md:text-[14px] lg:text-[16px] text-gray-700 my-3">
-                        James Brown, Influencer
+                        Nozima Ergasheva, Instructor
                       </p>
                     </CardContent>
                   </Card>
@@ -63,15 +65,15 @@ const Passion = () => {
                         <FaStar />
                       </div>
                       <p className="text-center font-thin sm:text-[12px] text-[12px] md:text-[14px] lg:text-[16px]">
-                        “Kate’s courses are a game changer. She’s thorough,
-                        organized, and explains things in a <br /> no-nonsense
-                        way that makes it easy for anyone—beginners to
-                        experts—to learn <br />
-                        something from her courses and take their game to the
-                        next level.”
+                        Personalized Feedback: Writing and speaking sections
+                        especially benefit from instructor corrections.
+                        <br /> Time Management Strategies: Learning to manage
+                        time effectively can boost overall performance. <br />
+                        IELTS courses can be extremely beneficial for learners
+                        who need structure, feedback, and strategy training.
                       </p>
                       <p className="text-center font-thin sm:text-[12px] text-[12px] md:text-[14px] lg:text-[16px] text-gray-700 my-3">
-                        James Brown, Influencer
+                        Nasim Abdullaev, Influencer
                       </p>
                     </CardContent>
                   </Card>
@@ -82,7 +84,7 @@ const Passion = () => {
         </div>
       </div>
       <div className="bg-black">
-        <div className="lg:mx-16 md:mx-12 sm:mx-1 py-4">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-5">
             <div data-aos="slide-up" className="bg-center -space-y-16">
               <div className="lg:flex  md:hidden sm:hidden hidden items-center justify-end mt-20 mr-10">
@@ -110,15 +112,22 @@ const Passion = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[10px]">
-                    A deep-dive on the Instagram algorythm, hashtags,
-                    <br /> content strategy, and branding.
+                    High Demand: Many students worldwide need IELTS for study,
+                    or work, making it a great career option.
+                    <br /> Structured Curriculum: The test format is
+                    well-defined, making it easier to plan lessons effectively.
+                    <br />
+                    Skill Development: Teachers not only help students improve
+                    their English but also enhance their own teaching skills.
                   </p>
                 </div>
                 <div>
                   <div className="mx-auto my-3">
-                    <button className="text-gray-700 lg:text-[16px] md:text-[16px] text-[12px]  rounded-lg hover:bg-gray-300 hover:text-black bg-[#fc8100] lg:py-2 lg:px-4 md:py-2 md:px-4 py-1  px-2 my-3">
-                      About W/A
-                    </button>
+                    <Link to="/teachers">
+                      <button className="text-gray-700 lg:text-[16px] md:text-[16px] text-[12px]  rounded-lg hover:bg-gray-300 hover:text-black bg-[#fc8100] lg:py-2 lg:px-4 md:py-2 md:px-4 py-1  px-2 my-3">
+                        W/A Instructors
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

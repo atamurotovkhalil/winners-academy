@@ -16,29 +16,49 @@ import MyFavourites from "./components/MyPage/MyFavourites";
 import MyArticles from "./components/MyPage/MyArticles";
 import WriteArticle from "./components/MyPage/WriteArticle";
 import AddLesson from "./components/MyPage/AddLesson";
+import Signup from "./components/Signup/Signup";
+import Login from "./components/Signup/Login";
+import UserCommunity from "./components/Community/UserCommunity";
+import AdminLayout from "./App/Layout/AdminLayout";
+import AdminPage from "./App/Admin";
+import MainLayout from "./App/Layout/MainLayout";
+import { Suspense } from "react";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar></Navbar>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/lessons" element={<Lessons />} />
-          <Route path="/teachers" element={<Teachers />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/lessonsdetail" element={<LessonsDetail />} />
-          <Route path="/teacherdetail" element={<TeacherDetail />} />
-          <Route path="/communitydetail" element={<CommunityDetail />} />
-          <Route path="/myprofile" element={<MyProfile />} />
-          <Route path="/mylesson" element={<MyLesson />} />
-          <Route path="/myfavourites" element={<MyFavourites />} />
-          <Route path="/myarticles" element={<MyArticles />} />
-          <Route path="/writearticle" element={<WriteArticle />} />
-          <Route path="/addlesson" element={<AddLesson />} />
-          <Route path="/mypage" element={<MyPage />} />
-        </Routes>
-        <Footer />
+        <Suspense fallback={<div>Loading...</div>}>
+          {/* <Navbar></Navbar> */}
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/lessons" element={<Lessons />} />
+              <Route path="/teachers" element={<Teachers />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/lessons/:lessonId" element={<LessonsDetail />} />
+              <Route path="/teacherdetail/:id" element={<TeacherDetail />} />
+              <Route
+                path="/communitydetail/:id"
+                element={<CommunityDetail />}
+              />
+              <Route path="/myprofile" element={<MyProfile />} />
+              <Route path="/mylesson" element={<MyLesson />} />
+              <Route path="/myfavourites" element={<MyFavourites />} />
+              <Route path="/myarticles" element={<MyArticles />} />
+              <Route path="/writearticle" element={<WriteArticle />} />
+              <Route path="/addlesson" element={<AddLesson />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/usercommunity/:id" element={<UserCommunity />} />
+            </Route>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="/admin/admin" element={<AdminPage />} />
+            </Route>
+          </Routes>
+          {/* <Footer /> */}
+        </Suspense>
       </BrowserRouter>
     </>
   );

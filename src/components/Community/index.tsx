@@ -6,15 +6,14 @@ import Community from "./Community";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const index = () => {
-    useEffect(() => {
-        AOS.init({ duration: 1200 });
-      }, []);
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
   return (
     <div>
       <div className="bg-[#fc8100]">
-        <div className="lg:mx-16 md:mx-12 sm:mx-1 py-4">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-5">
             <div
               data-aos="zoom-in"
@@ -33,20 +32,26 @@ const index = () => {
                 </div>
                 <div>
                   <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[10px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+                    At our language training center, we believe that learning
                     <br />
-                    aliquam, purus sit amet luctus venenatis, lectus magna
+                    thrives in a collaborative environment. That’s why we
                     <br />
-                    fringilla urnaLorem ipsum dolor sit amet.
+                    encourage students to share their ideas, experiences, and
+                    <br />
+                    insights with each other. Whether it’s about IELTS
+                    <br />
+                    preparation, language learning techniques, or personal
+                    <br />
+                    growth, every student has a unique perspective to offer.
                   </p>
                 </div>
-                <div>
+                {/* <div>
                   <div className="mx-auto my-3">
                     <button className="text-gray-300 lg:text-[16px] md:text-[16px] text-[12px]  rounded-lg hover:bg-gray-300 hover:text-black bg-black lg:py-2 lg:px-4 md:py-2 md:px-4 py-1  px-2 my-3">
                       Contact Us
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="flex justify-center items-center">

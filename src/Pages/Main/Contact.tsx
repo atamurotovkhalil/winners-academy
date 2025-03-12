@@ -4,7 +4,7 @@ const Contact = () => {
     <div className="">
       <div 
       data-aos="slide-up"
-      className="lg:mx-16 md:mx-12 sm:mx-2 py-4 bg-[#fc8100] lg:translate-y-24 md:translate-y-24">
+      className="container mx-auto max-w-6xl py-4 px-4 lg:px-16 bg-[#fc8100] lg:translate-y-24 md:translate-y-24">
         <div
           className="space-y-6 gap-y-10 drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300"

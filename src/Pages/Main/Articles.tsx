@@ -2,27 +2,27 @@ import cart1 from "./../../assets/articles1.jpeg";
 import cart2 from "./../../assets/articles2.jpeg";
 import cart3 from "./../../assets/articles2.jpeg";
 
-
 const Articles = () => {
   return (
     <div>
       <div className="bg-gray-200">
-        <div className="lg:mx-16 md:mx-12 sm:mx-2 py-4">
+        <div className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
           <div>
             <div data-aos="zoom-in" className="flex flex-col space-y-3">
               <div className="mx-auto">
                 <span className="border-b mx-auto font-thin lg:text-xl md:text-sm sm:text-xl  text-[16px] border-[#fc8100]">
-                  Recent Articles
+                  Articles
                 </span>
               </div>
               <div>
                 <p className="font-thin text-center">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  At our language learning training center, students are
+                  encouraged to express their thoughts and
                   <br />
-                  Suspendisse varius enim in eros elementum tristique. Duis
+                  ideas through writing. Over the years, they have produced
+                  diverse and insightful articles on a
                   <br />
-                  cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
-                  commodo diam libero vitae erat.
+                  variety of topics. Here’s a glimpse into some of their work:
                 </p>
               </div>
               <div className="mx-auto my-3">
@@ -36,50 +36,54 @@ const Articles = () => {
             <div className="grid lg:grid-cols-3 space-y-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1">
               <div
                 data-aos="slide-up"
-                className=" flex items-center justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart1} />
-                  <p className="m-3 text-gray-600">February 8, 2021</p>
+                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
-                    #How to Increase Your
+                    #Free Sharing
                     <br />
-                    Engagement on Instagram
+                    Many students write about their journey in learning English,
+                    sharing their challenges and study
+                    techniques.
                   </p>
-                  <p className="m-3 text-gray-600">Dianne Russel</p>
+                  <p className="m-3 text-gray-600">Jahon (John)</p>
                 </div>
               </div>
               <div
                 data-aos="slide-up"
-                className=" flex items-center justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart2} />
-                  <p className="m-3 text-gray-600">February 8, 2021</p>
+                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
-                    #How to Increase Your
+                    #Class Based
                     <br />
-                    Engagement on Instagram
+                    Some students focus on how English proficiency has helped
+                    them in higher education and job opportunities.
                   </p>
-                  <p className="m-3 text-gray-600">Dianne Russel</p>
+                  <p className="m-3 text-gray-600">Sitora</p>
                 </div>
               </div>
               <div
                 data-aos="slide-up"
-                className=" flex items-center justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart3} />
-                  <p className="m-3 text-gray-600">February 8, 2021</p>
+                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
-                    #How to Increase Your
+                    #News
                     <br />
-                    Engagement on Instagram
+                    Encourages Peer Learning – Students read and learn from each
+                    other’s perspectives.
                   </p>
-                  <p className="m-3 text-gray-600">Dianne Russel</p>
+                  <p className="m-3 text-gray-600">Salim</p>
                 </div>
               </div>
             </div>
