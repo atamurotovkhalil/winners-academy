@@ -20,14 +20,16 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router";
 
+type LogoutPopupProps = {
+  setShowLogout: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const BottomNavbar = () => {
-
+const BottomNavbar = ({ setShowLogout }: LogoutPopupProps) => {
   useEffect(() => {
     AOS.init({ duration: 1200 });
   }, []);
   return (
-    <div className="h-14 flex items-center justify-evenly">
+    <div className="h-14  flex items-center justify-evenly">
       <div className="flex items-center gap-10  justify-between">
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -38,15 +40,14 @@ const BottomNavbar = () => {
           <DropdownMenuContent>
             <DropdownMenuItem>
               <Link to={"/myprofile"}>
-                <Button
-                  className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
-                >
+                <Button className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
                   My Profile <FaRegCircleUser />
                 </Button>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Button
+                onClick={() => setShowLogout(true)}
                 className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
               >
                 Logout <TbLogout />
@@ -70,9 +71,7 @@ const BottomNavbar = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link to={"/writearticle"}>
-                <Button
-                  className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
-                >
+                <Button className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
                   Write Article <TfiWrite />
                 </Button>
               </Link>
@@ -88,9 +87,7 @@ const BottomNavbar = () => {
           <DropdownMenuContent>
             <DropdownMenuItem>
               <Link to={"/myfavourites"}>
-                <Button
-                  className="w-full rounded-xs flex justify-evenly  bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
-                >
+                <Button className="w-full rounded-xs flex justify-evenly  bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
                   My Favourites <PiArticleMediumFill />
                 </Button>
               </Link>
@@ -106,18 +103,14 @@ const BottomNavbar = () => {
           <DropdownMenuContent>
             <DropdownMenuItem>
               <Link to={"/addlesson"}>
-                <Button
-                  className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
-                >
+                <Button className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
                   Add Lesson <MdAssignment />
                 </Button>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link to={"/mylesson"}>
-                <Button
-                  className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
-                >
+                <Button className="w-full rounded-xs flex justify-evenly bg-[#fc8100] drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover">
                   My Lesson <MdAssignmentInd />
                 </Button>
               </Link>

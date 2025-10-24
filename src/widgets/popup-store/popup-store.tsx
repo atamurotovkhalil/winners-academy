@@ -3,9 +3,9 @@ import { create } from "zustand";
 export const usePopup = create((set) => ({
   deletepopup: false,
   deletelessonpopup: false,
-  //canceldeletepopup: false,
   confirmpopup: false,
   confirmlessonpopup: false,
+  profileId: null,
   articleCardId: null,
   lessonCardId: null,
 
@@ -17,8 +17,8 @@ export const usePopup = create((set) => ({
 
   setLessonConfirmpopup: (state: void, id: string) =>
     set({ deletelessonpopup: state, lessonCardId: id }),
-  setConfirmpopup: (state: void, id: string) =>
-    set({ confirmpopup: state, articleCardId: id }),
+  setConfirmpopup: (state: void, profileId: string, id: string) =>
+    set({ confirmpopup: state, profileId, articleCardId: id }),
   setDeleteLessonpopup: (state: void, statement: void) =>
     set({ deletelessonpopup: state, confirmpopup: statement }),
   setDeletepopup: (state: void, statement: void) =>

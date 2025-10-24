@@ -5,7 +5,6 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { useUserStore } from "../Signup/store/user-store";
 
 import { FaBold, FaItalic, FaUnderline, FaUndo } from "react-icons/fa";
 import {
@@ -18,26 +17,29 @@ import {
 import { FaCloudUploadAlt } from "react-icons/fa";
 import React from "react";
 import { usePopup } from "@/widgets/popup-store/popup-store";
+import { useCurrentUserStore } from "../Signup/store/currentUser-store";
 
 const AddLesson = () => {
-  const currentUser = useUserStore((state: any) => state.currentUser);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
-  const [newfiles, setnewfiles] = useState<File[]>([]);
+  const currentUser = useCurrentUserStore((state: any) => state.currentUser);
+  const fetchUserData = useCurrentUserStore((state: any) => state.fetchUserData);
+  const [newfiles, setnewfiles] = useState<File[]>([]); 
   const [lessonLevel, setLessonLevel] = useState("");
   const [lesson, setLesson] = useState({
     title: "",
     author: "",
     category: "",
   });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
   const setSignErroruppopup = usePopup(
     (state: any) => state.setSignErroruppopup
   );
   useEffect(() => {
-    if (!currentUser) {
-      fetchUserData();
-    }
-  }, [fetchUserData, currentUser]);
+    if(!currentUser){
+    fetchUserData()};
+  
+}, [ fetchUserData, currentUser]);
+
   const editor = useEditor({
     extensions: [StarterKit, Underline, Link, Image],
     content: "<p></p>",
@@ -60,35 +62,62 @@ const AddLesson = () => {
     const files = e.target.files;
     if (files && files[0]) {
       setnewfiles([files[0]]); // Store only the latest selected image
-    }
+    } 
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("description", editor.getHTML()); // Add editor content as FormData
-    formData.append("category", lessonLevel);
-    formData.append("author", lesson.author);
-    formData.append("title", lesson.title);
-    formData.append("userId", currentUser._id);
-    for (let i = 0; i < newfiles.length; i++) {
-      formData.append("file", newfiles[i]);
-    }
-    try {
-      const response = await fetch("http://localhost:3000/lessons", {
-        method: "POST",
-        body: formData,
-      });
+  e.preventDefault();
 
-      if (response.ok) {
-        setSignuppopup(true, "Lesson saved successfully!");
-      } else {
-        setSignErroruppopup(true, "Failed to save Lesson.");
-      }
-    } catch (error) {
-      setSignErroruppopup(true, `Error adding Lesson ${error}`);
+  // ✅ Validate fields before sending
+  if (!lesson.title.trim() || !lesson.author.trim() || !lessonLevel) {
+    setSignErroruppopup(true, "Please fill in all required fields.");
+    return;
+  }
+
+  // ✅ Validate file upload
+  if (newfiles.length === 0) {
+    setSignErroruppopup(true, "Please upload at least one file before submitting.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("description", editor.getHTML());
+  formData.append("category", lessonLevel);
+  formData.append("author", lesson.author);
+  formData.append("title", lesson.title);
+  formData.append("profileId", currentUser.id);
+
+  // ✅ Append all files
+  for (let i = 0; i < newfiles.length; i++) {
+    formData.append("file", newfiles[i]);
+  }
+
+  const token = localStorage.getItem("token");
+  try {
+    const response = await fetch(`${BASE_URL}/lessons/create`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+      body: formData,
+    });
+
+    if (response.ok) {
+      setSignuppopup(true, "Lesson saved successfully!");
+      // ✅ Optionally reset form
+      setLesson({ title: "", author: "", category: "" });
+      setLessonLevel("");
+      setnewfiles([]);
+      editor.commands.setContent("<p></p>");
+    } else {
+      setSignErroruppopup(true, "Failed to save Lesson.");
     }
-  };
+  } catch (error) {
+    setSignErroruppopup(true, `Error adding Lesson: ${error}`);
+  }
+};
+
 
   return (
     <div className=" lg:w-[100%] md:w-[100%] sm:w-[100%] lg:mt-0 flex items-center justify-center  md:mt-0 sm:mt-2">
@@ -136,10 +165,10 @@ const AddLesson = () => {
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent position="popper">
-                      <SelectItem value="general">General</SelectItem>
-                      <SelectItem value="grammar">Grammar</SelectItem>
-                      <SelectItem value="pre-ielts">Pre-IELTS</SelectItem>
-                      <SelectItem value="ielts">IELTS</SelectItem>
+                      <SelectItem value="GENERAL">General</SelectItem>
+                      <SelectItem value="GRAMMAR">Grammar</SelectItem>
+                      <SelectItem value="PRE_IELTS">Pre-IELTS</SelectItem>
+                      <SelectItem value="IELTS">IELTS</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

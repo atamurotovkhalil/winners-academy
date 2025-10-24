@@ -2,24 +2,31 @@ import { RiEmotionNormalFill } from "react-icons/ri";
 import { usePopup } from "../popup-store/popup-store";
 import { useArticleStore } from "@/components/Community/store/article-stroe";
 
+
 const ConfirmPopup = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const setDeletepopup = usePopup((state: any) => state.setDeletepopup);
   const articleCardId = usePopup((state: any) => state.articleCardId);
+  const profileId = usePopup((state: any) => state.profileId);
   const setSignErroruppopup = usePopup(
     (state: any) => state.setSignErroruppopup
   );
+  const getUserArticles = useArticleStore((state) => state.getUserArticles);
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
-  const getArticles = useArticleStore((state) => state.getArticles);
-  console.log(articleCardId);
 
   const deleteArticle = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
     try {
-      if (articleCardId!==null) {
+      if (articleCardId !== null) {
         const response = await fetch(
-          `http://localhost:3000/articles/${articleCardId}`,
+          `${BASE_URL}/articles/${articleCardId}`,
           {
             method: "DELETE",
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -30,7 +37,7 @@ const ConfirmPopup = () => {
         } else {
           setDeletepopup(false);
           setSignuppopup(true, "Deleted successfully");
-          getArticles("page", 1);
+          getUserArticles(profileId, 1, 6);
         }
       }
     } catch (err) {
@@ -53,13 +60,13 @@ const ConfirmPopup = () => {
               <div className="mx-auto">
                 <RiEmotionNormalFill className="w-16 mx-auto  h-16" />
                 <h1 className="text-3xl text-center">REALLY?</h1>
-                <p className="text-center m-3">Are you sure want do delete?</p>
+                <p className="text-center m-3">Are you sure want to delete?</p>
                 <div className="flex items-center gap-4 justify-center">
                   <button
                     className="mt-4 px-8 py-2 text-white bg-primary hover:bg-primary-dark rounded-md"
                     onClick={() => {
                       deleteArticle();
-                      //setDeletepopup(true, false);
+                      setDeletepopup(true, false);
                     }}
                   >
                     Confirm

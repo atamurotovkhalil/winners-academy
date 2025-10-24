@@ -4,149 +4,143 @@ import { FaSearch } from "react-icons/fa";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { baseURL } from "@/lib/baseURL";
+import { usePopup } from "@/widgets/popup-store/popup-store";
+
+interface FindLesson {
+  title: string;
+  author: string;
+  category: string;
+}
 
 const LessonsManager = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const { lessons } = useLessonStore();
-  const { getLessons } = useLessonStore();
+  const { lessons, getLessons } = useLessonStore();
   const [page, setPage] = useState(1);
-  //const { fetchProducts } = useProductStore.getState();
+  const [size] = useState(6);
+  const [lesson, setLesson] = useState<FindLesson>({
+    title: "",
+    author: "",
+    category: "All",
+  });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const setSignErroruppopup = usePopup((state: any) => state.setSignErroruppopup);
+  const setLikespopup = usePopup((state: any) => state.setLikespopup);
 
   useEffect(() => {
-    getLessons("page", 1); // Fetch products on component mount
+    getLessons(lesson, page, size);
   }, [getLessons]);
 
   const searchLessons = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    getLessons("keyword", searchTerm);
+    getLessons(lesson, page, size);
   };
-  function forwardPage() {
-    getLessons("keyword", searchTerm);
-    console.log(searchTerm);
-    if (page > 0 && 0 <= lessons.length) {
-      setPage(page + 1);
-      getLessons("page", page + 1);
-    }
-  }
-  function prevPage() {
-    getLessons("keyword", searchTerm);
-    console.log(searchTerm);
-    if (page >= 1 && 0 <= lessons.length) {
-      setPage(page - 1);
-      getLessons("page", page - 1);
-    }
-  }
 
-  async function handleDeleteProduct(id: string) {
-    const deleteLesson = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
-    if (deleteLesson === true) {
+  async function handleDeleteProduct(id: number) {
+    const deleteLesson = window.confirm("Are you sure you want to delete this lesson?");
+    if (deleteLesson) {
       try {
         const token = localStorage.getItem("token");
-
         if (!token) {
+          setSignErroruppopup(true, "Please log in.");
           throw new Error("No token found. Please log in.");
         }
 
-        const response = await fetch(`http://localhost:3000/lessons/${id}`, {
+        const response = await fetch(`${BASE_URL}/lessons/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-        getLessons("page", 1);
+
+        getLessons(lesson, page, size);
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(
-            `Failed to delete product: ${
-              errorData.message || response.statusText
-            }`
-          );
+          throw new Error(errorData.message || response.statusText);
         }
-
-        console.log(`Product with ID ${id} was successfully deleted.`);
+        setLikespopup();
       } catch (err: any) {
-        console.error("Failed to delete product:", err.message || err);
+        setSignErroruppopup(true, `Failed to delete lesson: ${err.message || err}`);
       }
     }
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Products Management</h2>
-      <div className="col-span-1 shadow-2xl h-[100px] m-3 p-3">
-        <p className="text-xl m-2 italic">Searching:</p>
-        <div className="w-[200px] flex">
+    <div className="container mx-auto px-3 sm:px-6 py-6">
+      <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">Lessons Management</h2>
+
+      {/* Search Section */}
+      <div className="shadow-2xl rounded-md bg-white p-4 mb-6">
+        <p className="text-lg font-semibold mb-3 italic text-gray-700">Search Lessons:</p>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:max-w-3xl">
           <input
             type="text"
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className=" border border-black rounded-md"
-          ></input>
+            placeholder="Search by title"
+            onChange={(e) => setLesson({ ...lesson, title: e.target.value })}
+            className="border border-gray-400 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <input
+            type="text"
+            placeholder="Search by author"
+            onChange={(e) => setLesson({ ...lesson, author: e.target.value })}
+            className="border border-gray-400 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary"
+          />
           <button
             onClick={searchLessons}
-            className="border border-primary rounded-md bg-primary text-white text-sm hover:bg-primary-dark duration-75"
+            className="flex items-center justify-center gap-2 border border-primary bg-primary text-white rounded-md px-4 py-2 hover:bg-primary-dark transition-all"
           >
-            <FaSearch className="text-sm bg-primary text-white  m-2" />
+            <FaSearch />
+            <span className="hidden sm:inline">Search</span>
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border border-gray-300">
+
+      {/* Lessons Table */}
+      <div className="overflow-x-auto shadow-lg rounded-md">
+        <table className="table-auto w-full border-collapse border border-gray-300 text-sm sm:text-base">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-4 py-2">ID</th>
-              <th className="border border-gray-300 px-4 py-2">Image</th>
-              <th className="border border-gray-300 px-4 py-2">Title</th>
-              <th className="border border-gray-300 px-4 py-2">Category</th>
-              <th className="border border-gray-300 px-4 py-2">Author</th>
-              <th className="border border-gray-300 px-4 py-2">Status</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
+            <tr className="bg-gray-100 text-gray-800">
+              <th className="border px-3 py-2">ID</th>
+              <th className="border px-3 py-2">Image</th>
+              <th className="border px-3 py-2">Title</th>
+              <th className="border px-3 py-2">Category</th>
+              <th className="border px-3 py-2">Author</th>
+              <th className="border px-3 py-2">Status</th>
+              <th className="border px-3 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {lessons?.map((lesson) => (
-              <tr key={lesson._id} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">
-                  {lesson._id}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
+              <tr key={lesson.id} className="text-center hover:bg-gray-50 transition-all">
+                <td className="border px-3 py-2">{lesson.id}</td>
+                <td className="border px-3 py-2">
                   <img
-                    src={`${baseURL}${lesson?.file?.[0]}`}
+                    src={`${baseURL}${lesson?.attachPath}`}
                     alt={lesson?.title}
                     className="w-12 h-12 object-cover rounded-md mx-auto"
                   />
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {lesson?.title}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {lesson?.category}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {lesson?.author}
-                </td>
+                <td className="border px-3 py-2">{lesson?.title}</td>
+                <td className="border px-3 py-2">{lesson?.category}</td>
+                <td className="border px-3 py-2">{lesson?.author}</td>
                 <td
-                  className={`border border-gray-300 px-4 py-2 font-semibold ${
-                    lesson?.status === "ACTIVE"
-                      ? "text-green-600"
-                      : "text-red-600"
+                  className={`border px-3 py-2 font-semibold ${
+                    lesson?.status === "ACTIVE" ? "text-green-600" : "text-red-600"
                   }`}
                 >
-                  {lesson?.status}
+                  {!lesson?.status? `No status`: lesson?.status}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border px-3 py-2">
                   <button
-                    onClick={() => handleDeleteProduct(lesson._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+                    onClick={() => handleDeleteProduct(lesson.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded-md text-sm sm:text-base hover:bg-red-600 transition-all"
                   >
                     Delete
                   </button>
@@ -156,24 +150,41 @@ const LessonsManager = () => {
           </tbody>
         </table>
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <button disabled={page === 1}>
-              <PaginationPrevious onClick={() => prevPage()} />
-            </button>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink>{page}</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <button 
-            disabled={lessons?.length < 1}>
-              <PaginationNext onClick={() => forwardPage()} />
-            </button>
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => {
+                  if (page > 1) {
+                    setPage(page - 1);
+                    getLessons(lesson, page - 1, size);
+                  }
+                }}
+                className={page === 1 ? "pointer-events-none opacity-50" : ""}
+                href="#"
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink>{page}</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => {
+                  setPage(page + 1);
+                  getLessons(lesson, page + 1, size);
+                }}
+                href="#"
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

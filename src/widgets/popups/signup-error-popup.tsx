@@ -20,7 +20,7 @@ const SignupErrorPopup = () => {
           <div className="flex text-white w-full h-full items-center justify-center">
             <div className="mx-auto">
               <RiEmotionSadFill className="w-50 text-6xl mx-auto  h-50" />
-              <h1 className="text-3xl text-center">PITY!</h1>
+              <h1 className="text-3xl text-center">SORRY!</h1>
               <p className="text-center m-3">{errorMsg}!</p>
               <div className="flex items-center justify-center">
                 <button

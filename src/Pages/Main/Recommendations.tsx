@@ -1,4 +1,4 @@
-import WinnersLogo from "@/components/ui/WinnersLogo";
+import WinnersLogo from "@/widgets/WinnersLogo";
 import Video from "./../../assets/winners-tarixi.mp4";
 
 const Recommendations = () => {

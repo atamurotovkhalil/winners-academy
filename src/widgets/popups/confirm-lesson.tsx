@@ -1,26 +1,35 @@
 import { usePopup } from "../popup-store/popup-store";
 import { RiEmotionNormalFill } from "react-icons/ri";
 import { useLessonStore } from "@/components/Lessons/store/lessons-store";
+import { useCurrentUserStore } from "@/components/Signup/store/currentUser-store";
 
 const ConfirmLesson = () => {
-  const setDeleteLessonpopup = usePopup((state: any) => state.setDeleteLessonpopup);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const getUserLessons = useLessonStore((state) => state.getUserLessons);
+  const currentUser = useCurrentUserStore((state: any) => state.currentUser);
+  const setDeleteLessonpopup = usePopup(
+    (state: any) => state.setDeleteLessonpopup
+  );
   const lessonCardId = usePopup((state: any) => state.lessonCardId);
   const setSignErroruppopup = usePopup(
     (state: any) => state.setSignErroruppopup
   );
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
-  const getLessons = useLessonStore((state) => state.getLessons);
 
-  console.log(lessonCardId);
 
   const deleteLesson = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
     try {
       if (lessonCardId !== null) {
         const response = await fetch(
-          `http://localhost:3000/lessons/${lessonCardId}`,
+          `${BASE_URL}/lessons/${lessonCardId}`,
           {
             method: "DELETE",
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -29,9 +38,9 @@ const ConfirmLesson = () => {
         if (!response.ok) {
           setSignErroruppopup(true, "Something went wrong");
         } else {
-          setDeleteLessonpopup(false); // Removed second argument
+          setDeleteLessonpopup(false); 
           setSignuppopup(true, "Deleted successfully");
-          getLessons("page", 1); // Refresh articles after deletion
+          getUserLessons(currentUser?.id, 1, 6); // Refresh articles after deletion
         }
       }
     } catch (err) {
@@ -52,11 +61,11 @@ const ConfirmLesson = () => {
                 className="mt-4 px-8 py-2 text-white bg-primary hover:bg-primary-dark rounded-md"
                 onClick={() => {
                   deleteLesson();
-                  //setDeleteLessonpopup(true, false);
+                  setDeleteLessonpopup(true, false);
                 }}
               >
                 Confirm
-              </button> 
+              </button>
               <button
                 className="mt-4 px-8 py-2 text-white bg-primary hover:bg-primary-dark rounded-md"
                 onClick={() => setDeleteLessonpopup(false, false)}

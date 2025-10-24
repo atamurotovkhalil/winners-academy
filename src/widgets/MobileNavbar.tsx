@@ -9,14 +9,15 @@ import Lessons from "../assets/lessons.png";
 import Community from "../assets/partners.png";
 import { Link } from "react-router";
 import User from "../assets/user.png";
-import { useUserStore } from "@/components/Signup/store/user-store";
+import { useCurrentUserStore } from "@/components/Signup/store/currentUser-store";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 type Props = {
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const MobileNavbar = (props: Props) => {
-  const { fetchUserData, currentUser } = useUserStore();
+  const { fetchUserData, currentUser } = useCurrentUserStore();
 
   useEffect(() => {
     if (!currentUser) {
@@ -76,16 +77,35 @@ object-cover bg-[#1C1C33] w-full rounded-xl"
                 <p className="mx-auto text-[12px]">W-COMMUNITY</p>
               </Link>
             </li>
-            {!currentUser && (
+            <li
+              onClick={() => props.setMenu(false)}
+              className="p-2 text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
+object-cover bg-[#1C1C33] w-full rounded-xl"
+            >
+              {" "}
+              <Link
+                className="flex items-center justify-evenly"
+                to={currentUser ? `/mypage` : `/login`}
+              >
+                <img className="w-[25px]" src={User} />
+                <p className="mx-auto text-[12px]">
+                  {currentUser ? "MY PAGE" : "LOGIN/SIGNUP"}
+                </p>
+              </Link>
+            </li>
+            {currentUser?.profileRole === "ROLE_ADMIN" && (
               <li
                 onClick={() => props.setMenu(false)}
                 className="p-2 text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
 object-cover bg-[#1C1C33] w-full rounded-xl"
               >
                 {" "}
-                <Link className="flex items-center justify-evenly" to="/mypage">
-                  <img className="w-[25px]" src={User} />
-                  <p className="mx-auto text-[12px]">MY PAGE</p>
+                <Link
+                  className="flex items-center justify-evenly"
+                  to="/admin/admin"
+                >
+                  <MdAdminPanelSettings size={20} />
+                  <p className="mx-auto text-[12px]">ADMIN PAGE</p>
                 </Link>
               </li>
             )}

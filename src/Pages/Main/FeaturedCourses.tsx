@@ -48,7 +48,6 @@ const FeaturedCourses = () => {
                   Speaking ability
                 </p>
                 <p className="m-3 ">Speaking classes</p>
-                {/* <p className="m-3 ">$59.99 USD</p> */}
                 <Link to="/lessons">
                   <button className="m-3 text-[#fc8100]">Learn More</button>
                 </Link>
@@ -68,9 +67,6 @@ const FeaturedCourses = () => {
                 </p>
                 <p className="m-3 ">Listening classes</p>
                 <div className="flex">
-                  {" "}
-                  {/* <p className="m-3 text-gray-400">$59.99 USD</p> */}
-                  {/* <p className="m-3 ">$59.99 USD</p> */}
                 </div>
                 <Link to="/lessons">
                   <button className="m-3 text-[#fc8100]">Learn More</button>
@@ -91,9 +87,6 @@ const FeaturedCourses = () => {
                 </p>
                 <p className="m-3 ">Reading classes</p>
                 <div className="flex">
-                  {" "}
-                  {/* <p className="m-3 text-gray-400">$59.99 USD</p>
-                  <p className="m-3 ">$59.99 USD</p> */}
                 </div>
 
                 <Link to="/lessons">

@@ -41,7 +41,6 @@ const Articles = () => {
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart1} />
-                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
                     #Free Sharing
                     <br />
@@ -59,7 +58,6 @@ const Articles = () => {
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart2} />
-                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
                     #Class Based
                     <br />
@@ -76,7 +74,6 @@ const Articles = () => {
               >
                 <div className="border-1 border-black ">
                   <img className="w-80 h-60" src={cart3} />
-                  {/* <p className="m-3 text-gray-600">February 8, 2021</p> */}
                   <p className="m-3 ">
                     #News
                     <br />

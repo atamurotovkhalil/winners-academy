@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Video from "./../../assets/Lessons1.mp4";
-import WinnersLogo from "../ui/WinnersLogo";
+import WinnersLogo from "../../widgets/WinnersLogo";
 import Lessons from "./Lessons";
 import Lenta from "../ui/Lenta";
 import AOS from "aos";
@@ -65,13 +65,6 @@ const index = () => {
                     needs.
                   </p>
                 </div>
-                {/* <div>
-                  <div className="mx-auto my-3">
-                    <button className="text-gray-300 lg:text-[16px] md:text-[16px] text-[12px]  rounded-lg hover:bg-gray-300 hover:text-black bg-black lg:py-2 lg:px-4 md:py-2 md:px-4 py-1  px-2 my-3">
-                      Contact Us
-                    </button>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

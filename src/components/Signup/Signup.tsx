@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { Link } from "react-router";
-import WinnersLogo from "../ui/WinnersLogo";
+import { Link, useNavigate } from "react-router";
+import WinnersLogo from "../../widgets/WinnersLogo";
 import { usePopup } from "@/widgets/popup-store/popup-store";
 import avatar from "./../../assets/avatar6.png";
-import { useUserStore } from "./store/user-store";
 
 const Signup = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [images, setImages] = useState<File[]>([]);
-  const fetchUserData = useUserStore((state) => state.fetchUserData);
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
   const setSignErroruppopup = usePopup(
     (state: any) => state.setSignErroruppopup
   );
+  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -24,9 +24,6 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
 
   const validateForm = () => {
     let valid = true;
@@ -66,30 +63,28 @@ const Signup = () => {
     try {
       const data = new FormData();
       data.append("name", formData.name);
-      data.append("email", formData.email);
+      data.append("phone", formData.email);
       data.append("password", formData.password);
       for (let i = 0; i < images.length; i++) {
-        data.append("image", images[i]);
+        data.append("file", images[i]);
       }
-      if (formData.name === "WEBSITE_ADMIN") {
-        data.append("type", "ADMIN");
+      if (formData.name === "WINNERS_ADMIN") {
+        data.append("profileRole", "ROLE_ADMIN");
       } else {
-        data.append("type", "USER");
+        data.append("profileRole", "ROLE_USER");
       }
 
-      const response = await fetch("http://localhost:3000/auth/signup", {
+      const response = await fetch(`${BASE_URL}/profile/registration`, {
         method: "POST",
+        credentials: "include",
         body: data,
       });
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        fetchUserData();
-        window.location.href = "/mypage";
-        setSignuppopup(true);
+        navigate("/login");
+        setSignuppopup(true, "Success");
       } else {
-        setSignErroruppopup(true);
+        setSignErroruppopup(true, "Something went wrong");
       }
     } catch (error) {
       setSignErroruppopup(true, `Server error occured: ${error}`);
@@ -128,7 +123,7 @@ const Signup = () => {
           </div>
         </div>
         <div>
-          <label className="block text-gray-700">Full Name</label>
+          <label className="block text-gray-700">Name</label>
           <input
             type="text"
             name="name"

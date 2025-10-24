@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import WinnersLogo from "../ui/WinnersLogo";
-import { Link } from "react-router";
-import { useUserStore } from "./store/user-store";
+import WinnersLogo from "../../widgets/WinnersLogo";
+import { Link, useNavigate } from "react-router";
 import { usePopup } from "@/widgets/popup-store/popup-store";
+import { useCurrentUserStore } from "./store/currentUser-store";
 
 const Login: React.FC = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState<string | null>(null);
-  const {setUser, currentUser} = useUserStore()
+  const [error] = useState<string | null>(null);
+  const fetchUserData = useCurrentUserStore((state: any) => state.fetchUserData);
   const setLikespopup = usePopup((state: any) => state.setLikespopup);
+  const setSignErroruppopup = usePopup(
+    (state: any) => state.setSignErroruppopup
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,33 +25,31 @@ const Login: React.FC = () => {
 
     if (formData.email && formData.password) {
       try {
-        const response = await fetch("http://localhost:3000/auth/login", {
+        const response = await fetch(`${BASE_URL}/profile/authorization`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: formData.email,
+            phone: formData.email,
             password: formData.password,
           }),
         });
 
         if (response.ok) {
-          const data = await response.json();
+          
+          const  data = await response.json();
+          localStorage.setItem("token", data.jwtToken);  
+          fetchUserData(); 
           setLikespopup()
-          setUser(data.data.user); // Handle token or user data as needed
-          setFormData({ email: "", password: "" }) // Reset form after successful login
-
-          localStorage.setItem("token", data.token);
-          //fetchCartProducts();
-          window.location.href = "/mypage";
+          setFormData({ email: "", password: "" })
+          navigate("/mypage");
         } else {
           const errorData = await response.json();
-          alert(`Login failed: ${errorData.message}`);
+          setSignErroruppopup(true, `Error during login: ${errorData}`);
         }
       } catch (error) {
-        console.error("Error during login:", error);
-        alert("An error occurred during login. Please try again.");
+        setSignErroruppopup(true, `An error occured during login: ${error}`)
       }
     } else {
       alert("Form validation failed! Please correct the errors and try again.");

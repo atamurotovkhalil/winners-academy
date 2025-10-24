@@ -8,32 +8,33 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useUserStore } from "../Signup/store/user-store";
 import avatar from "./../../assets/avatar6.png";
 import { usePopup } from "@/widgets/popup-store/popup-store";
 import { baseURL } from "@/lib/baseURL";
+import { useCurrentUserStore } from "../Signup/store/currentUser-store";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 const MyProfile = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [images, setImages] = useState<File[]>([]);
-  const currentUser = useUserStore((state: any) => state.currentUser);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
+  const currentUser = useCurrentUserStore((state: any) => state.currentUser);
+  const fetchUserData = useCurrentUserStore((state: any) => state.fetchUserData);
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const setSignErroruppopup = usePopup(
     (state: any) => state.setSignErroruppopup
   );
-  const [level, setLevel] = useState("General");
+  const [level, setLevel] = useState("BEGINNER");
   const [user, setUser] = useState({
     name: "",
     surname: "",
     phone: "",
     address: "",
     email: "",
-    telegramLink: "",
-    instagramLink: "",
-    tiktokLink: "",
+    level: "",
     detail: "",
   });
+
 
   useEffect(() => {
     if (!currentUser) {
@@ -49,9 +50,7 @@ const MyProfile = () => {
         phone: currentUser.phone || "",
         address: currentUser.address || "",
         email: currentUser.email || "",
-        telegramLink: currentUser.telegramLink || "",
-        instagramLink: currentUser.instagramLink || "",
-        tiktokLink: currentUser.tiktokLink || "",
+        level: currentUser.level || "",
         detail: currentUser.detail || "",
       });
     }
@@ -66,8 +65,10 @@ const MyProfile = () => {
       [name]: value,
     }));
   };
-  console.log(currentUser)
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
+    const token = localStorage.getItem("token")
     e.preventDefault();
 
     try {
@@ -78,34 +79,30 @@ const MyProfile = () => {
       data.append("phone", user.phone);
       data.append("address", user.address);
       data.append("level", level);
-      data.append("telegramLink", user.telegramLink);
-      data.append("instagramLink", user.instagramLink);
-      data.append("tiktokLink", user.tiktokLink);
+      data.append("detail", user.detail)
       for (let i = 0; i < images.length; i++) {
-        data.append("image", images[i]);
-      }
-      if (user.name === "WEBSITE_ADMIN") {
-        data.append("type", "ADMIN");
-      } else {
-        data.append("type", "USER");
+        data.append("file", images[i]);
       }
 
       const response = await fetch(
-        `http://localhost:3000/auth/signup/${currentUser._id}`,
+        `${BASE_URL}/profile/update-profile/${currentUser.id}`,
         {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
           body: data,
         }
       );
 
       if (response.ok) {
         setSignuppopup(true, "Changes saved");
+        fetchUserData();
       } else {
-        setSignErroruppopup(true);
+        setSignErroruppopup(true, "Something went wrong");
       }
     } catch (error) {
-      console.error("Error during signup:", error);
-      setSignErroruppopup(true, `Server error occured: ${error}`);
+      setSignErroruppopup(true, `Something went wrong: ${error}`);
     }
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,8 +127,8 @@ const MyProfile = () => {
                   className="w-40 h-40 border border-[#fc8100] rounded-full object-cover"
                   src={
                     imagePreview ||
-                    (currentUser?.image?.[0]
-                      ? `${baseURL}${currentUser.image[0]}`
+                    (currentUser?.attach
+                      ? `${baseURL}${currentUser?.attach.path}`
                       : avatar) // Check if image exists and concatenate baseURL
                   }
                   alt="User Image"
@@ -170,7 +167,7 @@ const MyProfile = () => {
               <input
                 type="text"
                 name="surname"
-                value={user.surname}
+                value={user?.surname}
                 placeholder="Surname*"
                 className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
                 onChange={handleChange}
@@ -203,7 +200,7 @@ const MyProfile = () => {
                 <Label htmlFor="framework" className="text-[16px]">
                   Your Level*
                 </Label>
-                <Select value={level} onValueChange={setLevel}>
+                <Select value={user.level} onValueChange={setLevel}>
                   <SelectTrigger
                     className="h-14 mt-1 bg-slate-200"
                     id="framework"
@@ -211,58 +208,12 @@ const MyProfile = () => {
                     <SelectValue placeholder="Level" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="general">General</SelectItem>
-                    <SelectItem value="grammar">Grammar</SelectItem>
-                    <SelectItem value="pre-ielts">Pre-IELTS</SelectItem>
-                    <SelectItem value="ielts">IELTS</SelectItem>
+                    <SelectItem value="BEGINNER">BEGINNER</SelectItem>
+                    <SelectItem value="INTERMEDIATE">INTERMEDIATE</SelectItem>
+                    <SelectItem value="ADVANCED">ADVANCED</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-
-            <div className="col-span-5">
-              Phone*
-              <input
-                type="text"
-                name="phone"
-                value={user.phone}
-                placeholder="Phone*"
-                className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-span-5">
-              Telegram link*
-              <input
-                type="text"
-                name="telegramLink"
-                value={user.telegramLink}
-                placeholder="Telegram link*"
-                className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-span-5">
-              Instagram link*
-              <input
-                type="text"
-                name="instagramLink"
-                value={user.instagramLink}
-                placeholder="Instagram link*"
-                className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-span-5">
-              Tik Tok link*
-              <input
-                type="text"
-                name="tiktokLink"
-                value={user.tiktokLink}
-                placeholder="Tik tok link*"
-                className="my-1 border bg-slate-200 rounded-lg p-4 w-full"
-                onChange={handleChange}
-              />
             </div>
           </div>
           <div className="col-span-10">
@@ -283,6 +234,7 @@ const MyProfile = () => {
           Save changes
         </button>
       </form>
+      <ChangePasswordForm/>
     </div>
   );
 };

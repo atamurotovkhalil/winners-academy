@@ -1,5 +1,5 @@
-import w from "../../assets/sticker.png";
-import A from "../../assets/sticker1.png";
+import w from "@/assets/sticker.png";
+import A from "@/assets/sticker1.png";
 
 
 const WinnersLogo = () => {

@@ -9,20 +9,20 @@ import Home from "../assets/home.png";
 import User from "../assets/user.png";
 import Lessons from "../assets/lessons.png";
 import Community from "../assets/partners.png";
-import { ModeToggle } from "@/components/mode-toggle";
 import MobileNavbar from "./MobileNavbar";
 import { BsPersonCircle } from "react-icons/bs";
-import { useUserStore } from "@/components/Signup/store/user-store";
+import { useCurrentUserStore } from "@/components/Signup/store/currentUser-store";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const Navbar = () => {
   const [menu, setMenu] = useState<SetStateAction<boolean>>(false);
-  const { fetchUserData, currentUser} = useUserStore()
+  const { fetchUserData, currentUser } = useCurrentUserStore();
 
-  useEffect(()=>{
-    if(!currentUser) {
-      fetchUserData()
+  useEffect(() => {
+    if (!currentUser) {
+      fetchUserData();
     }
-  },[currentUser, fetchUserData])
+  }, [currentUser, fetchUserData]);
 
   return (
     <div
@@ -62,14 +62,15 @@ const Navbar = () => {
                 </span>
               </div>
               <div className="text-end lg:hidden md:hidden flex justify-center items-end text-[10px]">
-                <p className="italic text-[10px] font-bold">
+                <p className="italic text-[12px] font-bold">
                   <span className="text-[#fc8100]  font-bold text-[16px]">
                     E
                   </span>
-                  veryone can be <br />
+                  <span className="text-black">veryone can be</span> <br />
                   <span className="italic font-bold">
                     {" "}
-                    <span className="text-[#fc8100] text-[16px]">W</span>inner
+                    <span className="text-[#fc8100] text-[16px]">W</span>
+                    <span className="text-black">inner</span>
                   </span>
                 </p>
               </div>
@@ -81,106 +82,98 @@ const Navbar = () => {
               <div className="">
                 <div className="lg:flex md:hidden sm:hidden hidden flex-row items-center text-center justify-center">
                   <ul className="flex flex-row bg-[#fc8100]  items-center space-x-2 justify-between lg:px-8  14:px-8 text-black   font-bold-100 rounded-sm">
-                    <li
+                    <Link
+                      to="/"
                       onClick={() => setMenu(false)}
                       className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33]  text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover bg-[#1c1c33cb] w-full rounded-xl"
                     >
                       {" "}
-                      <Link
-                        className="flex lg:w-30 md:w-28  items-center justify-between"
-                        to="/"
-                      >
+                      <div className="flex lg:w-30 md:w-28  items-center justify-between">
                         <img className="w-[14px] ml-3" src={Home} />
                         <p className="mx-auto lg:text-[12px] md:text-[8px]">
                           HOME
                         </p>
-                      </Link>
-                    </li>
-                    <li
+                      </div>
+                    </Link>
+                    <Link
+                      to="/lessons"
                       onClick={() => setMenu(false)}
                       className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover bg-[#1C1C33] w-full rounded-xl"
                     >
                       {" "}
-                      <Link
-                        className="flex lg:w-30 md:w-28   items-center justify-evenly"
-                        to="/lessons"
-                      >
+                      <div className="flex lg:w-30 md:w-28   items-center justify-evenly">
                         {" "}
                         <img className="w-[14px] ml-3" src={Lessons} />
                         <p className="mx-auto md:text-[8px]  lg:text-[12px]">
                           LESSONS
                         </p>
-                      </Link>
-                    </li>
-                    <li
+                      </div>
+                    </Link>
+                    <Link
+                      to="/teachers"
                       onClick={() => setMenu(false)}
                       className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover bg-[#1c1c33c5] w-full rounded-xl"
                     >
                       {" "}
-                      <Link
-                        className="flex lg:w-30 md:w-28  items-center justify-evenly"
-                        to="/teachers"
-                      >
+                      <div className="flex lg:w-30 md:w-28  items-center justify-evenly">
                         <img className="w-[14px]  ml-0" src={Teachers} />
                         <p className="mx-auto lg:text-[12px] md:text-[8px]">
                           TEACHERS
                         </p>
-                      </Link>
-                    </li>
-                    <li
+                      </div>
+                    </Link>
+                    <Link
+                      to="/community"
                       onClick={() => setMenu(false)}
                       className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
                     object-cover bg-[#1C1C33] w-full rounded-xl"
                     >
                       {" "}
-                      <Link
-                        className="flex lg:w-30 md:w-28  items-center justify-evenly"
-                        to="/community"
-                      >
+                      <div className="flex lg:w-30 md:w-28  items-center justify-evenly">
                         <img className="w-[14px] ml-3" src={Community} />
                         <p className="mx-auto lg:text-[12px] md:text-[8px]">
                           W-COMMUNITY
                         </p>
-                      </Link>
-                    </li>
-                    {currentUser && <li
-                      onClick={() => setMenu(false)}
-                      className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
-                    object-cover bg-[#1C1C33] w-full rounded-xl"
-                    >
-                      {" "}
+                      </div>
+                    </Link>
+                    {currentUser && (
                       <Link
-                        className="flex lg:w-30 md:w-28  items-center justify-evenly"
                         to="/mypage"
+                        onClick={() => setMenu(false)}
+                        className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
+                    object-cover bg-[#1C1C33] w-full rounded-xl"
                       >
-                        <img className="w-[14px] ml-3" src={User} />
-                        <p className="mx-auto lg:text-[12px] md:text-[8px]">
-                          MY PAGE
-                        </p>
+                        {" "}
+                        <div className="flex lg:w-30 md:w-28  items-center justify-evenly">
+                          <img className="w-[14px] ml-3" src={User} />
+                          <p className="mx-auto lg:text-[12px] md:text-[8px]">
+                            MY PAGE
+                          </p>
+                        </div>
                       </Link>
-                    </li>}
-                    {!currentUser && <li
-                      className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
-                    object-cover bg-[#1C1C33]  rounded-xl"
-                    >
-                      {" "}
+                    )}
+                    {!currentUser && (
                       <Link
-                        className="flex    items-center justify-evenly"
                         to="/signup"
+                        className="p-1 m-1 hover:bg-[#fc8100] hover:text-[#1C1C33] text-[#fc8100] drop-shadow-[-2px_2px_2px_rgba(0,0,0,1)]
+                    object-cover bg-[#1C1C33]  rounded-xl"
                       >
-                        <p className="mx-auto ">
-                          <BsPersonCircle className="w-[14px]"/>
-                        </p>
+                        {" "}
+                        <div className="flex    items-center justify-evenly">
+                          <p className="mx-auto ">
+                            <BsPersonCircle className="w-[14px]" />
+                          </p>
+                        </div>
                       </Link>
-                    </li>}
+                    )}
                   </ul>
                 </div>
               </div>
               <div className="">
-                {/* <ModeToggle /> */}
+                <ModeToggle />
               </div>
               <div className="flex relative items-center md:flex lg:hidden justify-between pr-2 h-12">
                 <div

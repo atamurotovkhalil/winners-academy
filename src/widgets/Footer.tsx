@@ -15,8 +15,12 @@ import SignupErrorPopup from "./popups/signup-error-popup";
 import ConfirmPopup from "./popups/confirm-popup";
 import ConfirmLesson from "./popups/confirm-lesson";
 import LikesPopup from "./popups/likes-popup";
+import LogoutPopup from "./popups/logout-popup";
+import { useState } from "react";
+
 
 const Footer = () => {
+  const [showLogout, setShowLogout] = useState(false);
   const signuppopup = usePopup((state: any) => state.signuppopup);
   const signuperrorpopup = usePopup((state: any) => state.signuperrorpopup);
   const confirmpopup = usePopup((state: any) => state.confirmpopup);
@@ -148,11 +152,12 @@ const Footer = () => {
           <LikesPopup />
         </div>
       )}
+      {showLogout && <LogoutPopup setShowLogout={setShowLogout} />}
       <div
-        className=" fixed z-10 lg:hidden md:hidden bottom-0 h-16  sm:w-[100%]  w-[100%]   bg-black/70
+        className=" fixed z-50 lg:hidden md:hidden bottom-0 h-16  sm:w-[100%]  w-[100%]   bg-black/70
                 backdrop-blur-2xl  rounded-t-3xl   cursor-pointer"
       >
-        <BottomNavbar />
+        <BottomNavbar setShowLogout={setShowLogout}/>
       </div>
     </div>
   );

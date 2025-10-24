@@ -1,4 +1,4 @@
-import WinnersLogo from "./WinnersLogo";
+import WinnersLogo from "../../widgets/WinnersLogo";
 
 
 const Lenta = () => {

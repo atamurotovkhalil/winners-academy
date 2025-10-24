@@ -11,127 +11,108 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import WinnersLogo from "../ui/WinnersLogo";
+import WinnersLogo from "../../widgets/WinnersLogo";
 import { FaSearch } from "react-icons/fa";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useUserStore } from "../Signup/store/user-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+interface FindUser {
+  name: string;
+  phone: string;
+  level: string;
+}
 
 const Teachers = () => {
   const users = useUserStore((state) => state.users);
   const getUsers = useUserStore((state) => state.getUsers);
+  const [page] = useState(1);
+  const [size] = useState(6);
+  const [allUsers, setAllUsers] = useState<FindUser>({
+    name: "",
+    phone: "",
+    level: "",
+  });
 
   useEffect(() => {
-    if (!users) {
-      getUsers("page", 1);
-    }
-  }, [users, getUsers]);
+    getUsers(allUsers, page, size);
+  }, [getUsers]);
 
-  const teachers = users.filter((user) => user.type === "TEACHER");
+  function findUsers() {
+    getUsers(allUsers, page, size);
+  }
 
   return (
-    <div className="w-full">
-      <div data-aos="slide-up" className="container mx-auto max-w-6xl py-4 px-4 lg:px-16">
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-start justify-between gap-4 my-5 min-h-screen">
-          <div className="col-span-1 lg:sticky md:sticky sm:sticky top-20">
-            <div className="flex items-center  lg:justify-start md:justify-start justify-center">
-              <Card
-                className=" border-0 drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)]
-                object-cover rounded-xs "
-              >
-                <div className="flex items-center justify-center">
-                  <WinnersLogo />
-                </div>
-                <CardHeader>
-                  <CardTitle>Filtering</CardTitle>
-                  <CardDescription>Here find your Lesson</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form>
-                    <div className="grid w-full items-center gap-4">
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Find by name:</Label>
-                        <Input
-                          className="drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)]
-                object-cover"
-                          id="name"
-                          placeholder="Wanted Lesson"
-                        />
-                      </div>
-                      <div
-                        className="flex flex-col space-y-1.5 drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)]
-                object-cover"
-                      >
-                        <Label htmlFor="framework">Choose Level</Label>
-                        <Select>
-                          <SelectTrigger id="framework">
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                          <SelectContent position="popper">
-                            <SelectItem value="next">All</SelectItem>
-                            <SelectItem value="sveltekit">Grammar</SelectItem>
-                            <SelectItem value="astro">Pre-IELTS</SelectItem>
-                            <SelectItem value="nuxt">IELTS</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  </form>
-                </CardContent>
-                <CardFooter className="flex justify-between ">
-                  <Button
-                    className=" w-full hover:bg-[#fc8100] rounded-xs drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)]
-                object-cover"
-                  >
-                    Search <FaSearch />
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          </div>
-          <div className="lg:col-span-3  md:col-span-2 grid items-center  justify-center lg:grid-cols-3 md:grid-cols-2 space-y-3 space-x-3 my-3">
-            {teachers.map((teach) => (
-              <div key={teach._id}>
-                <Link to={`/teacherdetail/${teach._id}`}>
-                  <TeacherCard user={teach} />
-                </Link>
-              </div>
-            ))}
-          </div>
+    <div className="w-full bg-gray-50 min-h-screen py-10">
+      <div
+        data-aos="slide-up"
+        className="container mx-auto max-w-6xl px-4 lg:px-16"
+      >
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Our Teachers
+          </h1>
+          <p className="text-gray-500 mt-2">
+            Find the best teacher for yourself
+          </p>
         </div>
 
-        <div className="my-3">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        {/* Grid */}
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+          {/* Search/Filter Card */}
+          <div className="col-span-1">
+            <Card className="p-4 shadow-lg rounded-lg border border-gray-200">
+              <div className="flex justify-center mb-4">
+                <WinnersLogo />
+              </div>
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">Filter</CardTitle>
+                <CardDescription className="text-gray-500 text-sm">
+                  Search your desired teacher
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-4">
+                  <div className="flex flex-col">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter name"
+                      value={allUsers.name}
+                      onChange={(e) =>
+                        setAllUsers({ ...allUsers, name: e.target.value })
+                      }
+                      className="mt-1"
+                    />
+                  </div>
+                </form>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                onClick={findUsers}
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                  Search <FaSearch className="ml-2" />
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          {/* Teacher Cards */}
+          <div className="lg:col-span-3 md:col-span-2 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+            {users?.length > 0 ? (
+              users.map((teach) => (
+                <Link key={teach.id} to={`/teacherdetail/${teach.id}`}>
+                  <div className="hover:scale-105 transition-transform duration-300">
+                    <TeacherCard user={teach} />
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="text-gray-500 col-span-full text-center">
+                No teachers found.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

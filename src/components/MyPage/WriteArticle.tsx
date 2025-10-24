@@ -8,12 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useUserStore } from "../Signup/store/user-store";
 import { usePopup } from "@/widgets/popup-store/popup-store";
+import { useCurrentUserStore } from "../Signup/store/currentUser-store";
 
 const WriteArticle = () => {
-  const currentUser = useUserStore((state: any) => state.currentUser);
-  const fetchUserData = useUserStore((state: any) => state.fetchUserData);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const currentUser = useCurrentUserStore((state: any) => state.currentUser);
+  const fetchUserData = useCurrentUserStore(
+    (state: any) => state.fetchUserData
+  );
   const [newfiles, setnewfiles] = useState<File[]>([]);
   const [articleLevel, setArticleLevel] = useState("");
   const setSignuppopup = usePopup((state: any) => state.setSignuppopup);
@@ -49,18 +52,33 @@ const WriteArticle = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (newfiles.length === 0) {
+      setSignErroruppopup(
+        true,
+        "Please upload at least one file before submitting."
+      );
+      return;
+    }
     const formData = new FormData();
     formData.append("description", article.description); // Add editor content as FormData
     formData.append("category", articleLevel);
     formData.append("title", article.title);
-    formData.append("userId", currentUser._id);
+    formData.append("profileId", currentUser.id);
     formData.append("author", article.author);
     for (let i = 0; i < newfiles.length; i++) {
       formData.append("file", newfiles[i]);
     }
     try {
-      const response = await fetch("http://localhost:3000/articles", {
+      const token = localStorage.getItem("token");
+      if(!token){
+        setSignErroruppopup(true, "Please login first")
+      }
+      const response = await fetch(`${BASE_URL}/articles/create`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        credentials: "include",
         body: formData,
       });
 
@@ -70,7 +88,7 @@ const WriteArticle = () => {
         setSignErroruppopup(true, "Failed to save Article.");
       }
     } catch (error) {
-      setSignErroruppopup(true, `Error adding Article ${error}`);
+      setSignErroruppopup(true, `Error occured saving Article ${error}`);
     }
   };
 
@@ -119,9 +137,9 @@ const WriteArticle = () => {
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="freesharing">Free Sharing</SelectItem>
-                    <SelectItem value="classbased">Class Based</SelectItem>
-                    <SelectItem value="news">News</SelectItem>
+                    <SelectItem value="FREE_SHARING">Free Sharing</SelectItem>
+                    <SelectItem value="CLASS_BASED">Class Based</SelectItem>
+                    <SelectItem value="NEWS">News</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

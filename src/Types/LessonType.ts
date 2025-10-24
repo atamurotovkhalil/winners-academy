@@ -1,14 +1,16 @@
 export interface Lesson {
-    _id: string;
+    id: number;
     title: string;
     description?: string;
-    file?: string[];
+    attachPath?: string[] ;
+    extension?: string;
     author?: string;
     category?: string;
     status?: string;
     views: number;
     likes: number;
+    profileId?: number;
     userId?: string;
-    createdAt: string; // ISO date string
+    createdDate: string; // ISO date string
     updatedAt: string; // ISO date string
   }

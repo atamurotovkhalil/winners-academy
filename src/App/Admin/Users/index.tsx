@@ -1,4 +1,3 @@
-import React from 'react'
 import UsersManager from './UsersManager'
 
 const index = () => {
