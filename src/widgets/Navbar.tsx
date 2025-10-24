@@ -12,7 +12,6 @@ import Community from "../assets/partners.png";
 import MobileNavbar from "./MobileNavbar";
 import { BsPersonCircle } from "react-icons/bs";
 import { useCurrentUserStore } from "@/components/Signup/store/currentUser-store";
-import { ModeToggle } from "@/components/mode-toggle";
 
 const Navbar = () => {
   const [menu, setMenu] = useState<SetStateAction<boolean>>(false);
@@ -59,7 +58,7 @@ const Navbar = () => {
                   {" "}
                   <span className="text-[#fc8100] text-[22px]">A</span>
                   <span className="text-black text-[22px]">cademy</span>
-                </span>
+                </span> 
               </div>
               <div className="text-end lg:hidden md:hidden flex justify-center items-end text-[10px]">
                 <p className="italic text-[12px] font-bold">
@@ -172,9 +171,6 @@ const Navbar = () => {
                   </ul>
                 </div>
               </div>
-              <div className="">
-                <ModeToggle />
-              </div>
               <div className="flex relative items-center md:flex lg:hidden justify-between pr-2 h-12">
                 <div
                   className="drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)]
@@ -198,17 +194,20 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
+            
             <div
-              className={
+              className={ 
                 menu
-                  ? `fixed z-10 lg:hidden  right-0  top-[100%] sm:w-[100%] md:w-[30%] w-[100%]  text-black  bg-[#1C1C33]/60
-                backdrop-blur-2xl  rounded-b-md ease-in-out duration-500 cursor-pointer`
-                  : "fixed lg:hidden top-[-1000%]"
+                  ? `fixed z-50   right-0 top-[100%] w-[70%] h-[95%] border-l rounded-l-md border-l-gray-900  ease-in-out duration-300
+                   lg:hidden    sm:w-[100%] 
+                  md:w-[30%]   text-black  
+                backdrop-blur-2xl  rounded-b-md  duration-500 cursor-pointer`
+                  : "fixed lg:hidden left-[-100%]"
               }
             >
-              <div>
-                <MobileNavbar setMenu={setMenu} />
-              </div>
+                <div>
+                  <MobileNavbar setMenu={setMenu} />
+                </div>
             </div>
           </div>
         </div>

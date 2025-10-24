@@ -36,7 +36,7 @@ const Articles = () => {
             <div className="grid lg:grid-cols-3 space-y-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1">
               <div
                 data-aos="slide-up"
-                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-full justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">
@@ -53,7 +53,7 @@ const Articles = () => {
               </div>
               <div
                 data-aos="slide-up"
-                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-full justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">
@@ -69,7 +69,7 @@ const Articles = () => {
               </div>
               <div
                 data-aos="slide-up"
-                className=" flex items-center w-80 justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
+                className=" flex items-center w-full justify-center drop-shadow-[-10px_10px_10px_rgba(0,0,0,1)]
                   object-cover lg:hover:scale-110 lg:hover:transition-all lg:hover:duration-300 "
               >
                 <div className="border-1 border-black ">

@@ -25,7 +25,7 @@ const MobileNavbar = (props: Props) => {
     }
   }, [currentUser, fetchUserData]);
   return (
-    <div>
+    <div className=" bg-[#1C1C33]/60">
       <div>
         <div className="flex flex-col items-center text-center justify-center h-96">
           <ul className="flex flex-col items-center space-y-2 justify-center px-8 w-[90%]  text-black  bg-[#fc8100] font-bold-100 rounded-sm h-72">

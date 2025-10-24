@@ -6,7 +6,6 @@ import { CiHeart } from "react-icons/ci";
 import { useNavigate } from "react-router";
 import { Lesson } from "@/Types/LessonType";
 import { useEffect, useState } from "react";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { baseURL } from "@/lib/baseURL";
 import { Button } from "../ui/button";
 import { MdDelete } from "react-icons/md";
