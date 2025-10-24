@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useCurrentUserStore } from "@/components/Signup/store/currentUser-store";
 
-type Props = {
-  setMenu: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
-const MobileNavbar = (props: Props) => {
+
+const MobileNavbar = ( ) => {
   const { fetchUserData, currentUser } = useCurrentUserStore();
 
   useEffect(() => {
