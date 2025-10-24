@@ -52,7 +52,7 @@ const index = () => {
                   </span>
                 </div>
                 <div>
-                  <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[10px]">
+                  <p className="text-gray-300 font-thin lg:text-xl md:text-sm sm:text-xl  text-[16px]">
                     At our language training center, we offer a variety of
                     <br />
                     structured lessons designed to help students master 
