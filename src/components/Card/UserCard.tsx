@@ -51,7 +51,7 @@ const UserCard = ({ user }: Prop) => {
                   ? `${user.name.slice(0, 10)}${
                       user.name.length > 10 ? "..." : ""
                     }`
-                  : "No address provided"}
+                  : "No address"}
               </p>
             </div>
 
@@ -66,7 +66,7 @@ const UserCard = ({ user }: Prop) => {
                   ? `${user.address.slice(0, 20)}${
                       user.address.length > 20 ? "..." : ""
                     }`
-                  : "No address provided"}
+                  : "No address"}
               </p>
             </div>
 

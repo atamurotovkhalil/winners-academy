@@ -98,6 +98,7 @@ const MyPage = () => {
                                 </div>
                             </CardHeader>
                             <CardFooter className="flex flex-col gap-2">
+                                {/* eslint-disable-next-line no-constant-condition */}
                                 {currentUser?.type === "TEACHER" || "ADMIN" ? (
                                     <Button
                                         onClick={() => setShowComponent(1)}
